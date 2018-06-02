@@ -1,0 +1,21 @@
+.RemixScreen {
+  color: var(--text-color);
+  background: white;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+
+  main {
+    width: 100%;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    position: relative;
+  }
+  webview {
+    height: 100%;
+  }
+}

@@ -4,7 +4,7 @@ import connect from '../Helpers/connect'
 import * as Search from '../../Actions/Search'
 import { setSystemError } from '../../Actions/Core'
 import { setUpdateAvailable, showUpdateModal } from '../../Actions/AutoUpdate'
- 
+
 import Spinner from '../../Elements/Spinner'
 import OnlyIf from '../../Elements/OnlyIf'
 import StatusIndicator from '../../Elements/StatusIndicator'
@@ -136,6 +136,10 @@ class TopNavbar extends Component {
             <Link to="logs" activeClassName="Active">
               <LogsIcon />
               Logs
+            </Link>
+            <Link to="remix" activeClassName="Active">
+              <LogsIcon />
+              Remix
             </Link>
           </div>
           <div className="NotificationAndSearchBar">

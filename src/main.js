@@ -2,22 +2,22 @@ import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron'
 import { enableLiveReload } from 'electron-compile';
 import { initAutoUpdates, getAutoUpdateService } from './Init/Main/AutoUpdate.js'
 import path from 'path'
-
+const child_process = require('child_process');
 const isDevMode = process.execPath.match(/[\\/]electron/);
-
+console.log("start main!");
 
 if (isDevMode) {
   enableLiveReload({strategy: 'react-hmr'});
 
-  // let installExtension = require('electron-devtools-installer')
-  // let REACT_DEVELOPER_TOOLS = installExtension.REACT_DEVELOPER_TOOLS
+  let installExtension = require('electron-devtools-installer')
+  let REACT_DEVELOPER_TOOLS = installExtension.REACT_DEVELOPER_TOOLS
 }
 
-import { 
+import {
   REQUEST_SERVER_RESTART,
-  SET_SERVER_STARTED, 
+  SET_SERVER_STARTED,
   SET_SERVER_STOPPED,
-  SET_KEY_DATA, 
+  SET_KEY_DATA,
   SET_SYSTEM_ERROR
 } from './Actions/Core'
 
@@ -33,10 +33,12 @@ let mainWindow = null
 let testRpcService = null
 let consoleService = null // eslint-disable-line
 
+const remixd = child_process.spawn("./node_modules/.bin/remixd", ["-f", "./node_modules/remix-ide", "-s", "./node_modules/remix-ide/contracts"]);
+
 // If you want to test out error handling
 // setTimeout(() => {
-//   throw new Error("Error from main process!")
-// }, 8000)
+//  throw new Error("Error from main process!")
+// }, 20000)
 
 process.on('uncaughtException', err => {
   if (mainWindow && err) {
@@ -74,7 +76,7 @@ app.on('ready', () => {
   // see https://github.com/electron/electron/issues/9179 for more info
   setTimeout(async () => {
     const chain = new ChainService(app)
-    const Settings = new SettingsService() 
+    const Settings = new SettingsService()
 
     app.on('will-quit', function () {
       chain.stopProcess();
@@ -117,7 +119,7 @@ app.on('ready', () => {
       })
 
       chain.on("server-started", (data) => {
-        mainWindow.webContents.send(SET_KEY_DATA, { 
+        mainWindow.webContents.send(SET_KEY_DATA, {
           privateKeys: data.privateKeys,
           mnemonic: data.mnemonic,
           hdPath: data.hdPath

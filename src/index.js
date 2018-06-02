@@ -21,6 +21,7 @@ import TransactionsScreen from './Components/Transactions/TransactionsScreen'
 import LogsScreen from './Components/Logs/LogsScreen'
 import NotFoundScreen from './Components/NotFound/NotFoundScreen'
 import TitleScreen from './Components/Title/TitleScreen'
+import RemixScreen from './Components/Remix/RemixScreen'
 import FirstRunScreen from './Components/FirstRun/FirstRunScreen'
 
 import {ipcRenderer} from 'electron'
@@ -39,8 +40,9 @@ const routes = <Route>
     <Route path="/blocks(/:blockNumber)" component={BlocksScreen} />
     <Route path="/transactions(/:transactionHash)" component={TransactionsScreen} />
     <Route path="/logs" component={LogsScreen} />
+    <Route path="/remix" component={RemixScreen} />
     <Route path="/notfound" component={NotFoundScreen} />
-    <Route path='/config' component={ConfigScreen} /> 
+    <Route path='/config' component={ConfigScreen} />
   </Route>
 </Route>
 
@@ -85,9 +87,10 @@ const stylesheets = [
   "./Components/AutoUpdate/UpdateNotification.scss",
   "./Components/Logs/LogsScreen.scss",
   "./Components/Logs/LogContainer.scss",
+  "./Components/Remix/RemixScreen.scss",
   "./Components/Config/ConfigScreen.scss",
   "./Components/NotFound/NotFoundScreen.scss"
-] 
+]
 
 const render = () => {
 
@@ -106,7 +109,7 @@ const render = () => {
     ss.type = "text/css"
     ss.rel = "stylesheet"
     ss.href = stylesheet
-    document.getElementsByTagName("head")[0].appendChild(ss) 
+    document.getElementsByTagName("head")[0].appendChild(ss)
   })
 
   ReactDOM.render(
