@@ -1,5 +1,29 @@
+
+
+## Remix integrated Ganache PoC
+
 <p align="center">
-  <img src="https://github.com/trufflesuite/ganache/blob/new_ui/resources/icons/png/128x128.png?raw=true")
+  <img src="https://raw.githubusercontent.com/zigen/ganache/integrate-remix-poc/.github/images/ganache-remix-screenshot.png?raw=true"/>
+</p>
+
+Ganache and RemixIDE are awesome projects.
+I'd like to distribute the application that includes editor, blockchain node, logger, tx viewer and compiler, everything.
+when a begginer try to build smartcontract, it need to collect a lot of components and build it.
+making private net is difficult and there're a lot of things to do and how to deploy it? how to call contract? web3? remix?
+sometime CORS problem prevents us from connecting to node, there're a lot of pitfalls.
+that's why I need it.
+
+### try
+this is just a proof-of-concept. current PoC verision works but too slow.
+```sh
+$ npm install
+$ npm start
+```
+
+---
+
+<p align="center">
+  <img src="https://github.com/trufflesuite/ganache/blob/new_ui/resources/icons/png/128x128.png?raw=true"/>
 </p>
 
 ## Ganache
