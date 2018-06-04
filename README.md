@@ -6,6 +6,7 @@
   <img src="https://raw.githubusercontent.com/zigen/ganache/integrate-remix-poc/.github/images/ganache-remix-screenshot.png?raw=true"/>
 </p>
 
+## Motivation
 Ganache and RemixIDE are awesome projects.
 I'd like to distribute the application that includes editor, blockchain node, logger, tx viewer and compiler, everything.
 when a begginer try to build smartcontract, it need to collect a lot of components and build it.
@@ -14,11 +15,28 @@ sometime CORS problem prevents us from connecting to node, there're a lot of pit
 that's why I need it.
 
 ### try
-this is just a proof-of-concept. current PoC verision works but too slow.
+this is just a proof-of-concept. current PoC verision works but too slow (due to webview and remixd).
 ```sh
 $ npm install
 $ npm start
 ```
+### Consideration
+* is Remix IDE the best choice? is there any IDE or Editor for developing smart contract?
+  * in the future, I want to develop smart contract with Vyper
+  * can Remix IDE take opcodes or bytecode?
+  * if we use Remix, we implement RemixIDE as React Component to Ganache without remixd.
+* how to manage smart contract project files?
+  * electron runs on node.js process, so we can control files. 
+* I want to debug contract easily. but now I don't know about it.
+  * how to attach debugger to EVM?
+  * I don't know about how ganache works. how does Chain work? how does Client work?
+* should I fork Ganache as new Application or send Issue and PR?
+
+
+thanks for reading. now this proposal is just a casual idea.
+I'll investicate other Ethereum development environments and refine this idea.
+Then I want to formalize my plan.
+
 
 ---
 
