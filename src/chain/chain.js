@@ -12,14 +12,14 @@ if (!process.send) {
 // remove the uncaughtException listener added by ganache-cli
 process.removeAllListeners('uncaughtException')
 
-process.on('unhandledRejection', (err) => {		
-  //console.log('unhandled rejection:', err.stack || err)		
-  process.send({type: 'error', data: copyErrorFields(err)})		
+process.on('unhandledRejection', (err) => {
+  //console.log('unhandled rejection:', err.stack || err)
+  process.send({type: 'error', data: copyErrorFields(err)})
 });
 
-process.on('uncaughtException', (err) => {		
-  //console.log('uncaught exception:', err.stack || err)		
-  process.send({type: 'error', data: copyErrorFields(err)})		
+process.on('uncaughtException', (err) => {
+  //console.log('uncaught exception:', err.stack || err)
+  process.send({type: 'error', data: copyErrorFields(err)})
 });
 
 
@@ -46,6 +46,7 @@ function startServer(options) {
     let sanitizedOptions = Object.assign({}, options)
     delete sanitizedOptions.mnemonic
 
+    options.logDirectory = "/Users/zigen/Projects/Ethereum/ganache/logs";
     const logToFile = options.logDirectory !== null && typeof options.logDirectory === 'string'
 
     if (typeof options.logger === 'undefined') {
@@ -54,9 +55,19 @@ function startServer(options) {
 
         options.logger = {
           log: (message) => {
-            if (typeof message === 'string') {
-              logging.logToFile(message)
-            }
+           if(message.indexOf(" ") == 0) {
+                //console.log(message)
+              } else if(options.verbose || message.indexOf("step:") == 0) {
+                try {
+                  const stepEvent = JSON.parse(message.substr(5));
+                  logging.logToFile(stepEvent)
+                  logging.logToFile(message.indexOf("step:"))
+
+                } catch(e) {
+                     logging.logToFile(message)
+
+                }
+              }
           }
         }
       }
@@ -68,8 +79,13 @@ function startServer(options) {
 
         options.logger = {
           log: (message) => {
-            if (typeof message === 'string' && (options.verbose || message.indexOf(" ") == 0)) {
-              console.log(message)
+            if (typeof message === 'string') {
+              if(message.indexOf(" ") == 0) {
+                //console.log(message)
+              } else if(options.verbose || message.indexOf("step:") == 0) {
+                const stepEvent = JSON.parse(message.substr(5));
+                console.log(stepEvent)
+              }
             }
           }
         }
@@ -82,7 +98,9 @@ function startServer(options) {
     if (logToFile) {
       logging.logToFile(startingMessage)
     }
-
+    options.verbose = true;
+    options.debug = true;
+    console.log(options);
     server = ganacheLib.server(options);
 
     // We'll also log all methods that aren't marked internal by Ganache
@@ -151,7 +169,7 @@ function startServer(options) {
 }
 
 process.on("message", function(message) {
-  //console.log("CHILD RECEIVED", message)
+  console.log("CHILD RECEIVED", message.type)
   switch(message.type) {
     case "start-server":
       startServer(message.data)

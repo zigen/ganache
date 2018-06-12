@@ -28,7 +28,7 @@ class ChainService extends EventEmitter {
     this.child = fork(chainPath, [], options)
     this.child.on('message', (message) => {
       if (message.type == "process-started") {
-        this.emit("start")
+        this.emit("start", {debug: true})
       }
       if (message.type == "server-started") {
         this.serverStarted = true
@@ -51,7 +51,7 @@ class ChainService extends EventEmitter {
       this.emit("stderr", data.toString().replace(/\r/g, "").replace(/\n$/, ""))
     });
   }
-  
+
   startServer(settings) {
     let options = this._ganacheCoreOptionsFromGanacheSettingsObject(settings)
     this.child.send({

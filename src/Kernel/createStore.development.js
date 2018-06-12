@@ -3,6 +3,7 @@ import thunk from 'redux-thunk'
 import { hashHistory } from 'react-router'
 import { routerMiddleware, push } from 'react-router-redux'
 import createLogger from 'redux-logger'
+require('electron-redux-devtools').install();
 
 const actionCreators = {
   push
@@ -26,7 +27,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
       // Options: http://zalmoxisus.github.io/redux-devtools-extension/API/Arguments.html
     actionCreators,
-    maxAge: 5
+    actionsBlackList: ["LOGS/ADD_LOG_LINES"]
+//    maxAge: 5
   })
   : compose
 

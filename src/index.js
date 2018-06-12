@@ -40,7 +40,7 @@ const routes = <Route>
     <Route path="/transactions(/:transactionHash)" component={TransactionsScreen} />
     <Route path="/logs" component={LogsScreen} />
     <Route path="/notfound" component={NotFoundScreen} />
-    <Route path='/config' component={ConfigScreen} /> 
+    <Route path='/config' component={ConfigScreen} />
   </Route>
 </Route>
 
@@ -87,7 +87,7 @@ const stylesheets = [
   "./Components/Logs/LogContainer.scss",
   "./Components/Config/ConfigScreen.scss",
   "./Components/NotFound/NotFoundScreen.scss"
-] 
+]
 
 const render = () => {
 
@@ -106,7 +106,7 @@ const render = () => {
     ss.type = "text/css"
     ss.rel = "stylesheet"
     ss.href = stylesheet
-    document.getElementsByTagName("head")[0].appendChild(ss) 
+    document.getElementsByTagName("head")[0].appendChild(ss)
   })
 
   ReactDOM.render(

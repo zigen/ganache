@@ -8,16 +8,14 @@ const isDevMode = process.execPath.match(/[\\/]electron/);
 
 if (isDevMode) {
   enableLiveReload({strategy: 'react-hmr'});
-
   // let installExtension = require('electron-devtools-installer')
   // let REACT_DEVELOPER_TOOLS = installExtension.REACT_DEVELOPER_TOOLS
 }
-
-import { 
+import {
   REQUEST_SERVER_RESTART,
-  SET_SERVER_STARTED, 
+  SET_SERVER_STARTED,
   SET_SERVER_STOPPED,
-  SET_KEY_DATA, 
+  SET_KEY_DATA,
   SET_SYSTEM_ERROR
 } from './Actions/Core'
 
@@ -68,13 +66,14 @@ const getIconPath = () => {
 if (process.platform === 'darwin') {
   app.dock.setIcon(getIconPath())
 }
+let chain = null, Settings = null;
 
 app.on('ready', () => {
   // workaround for electron race condition, causing hang on startup.
   // see https://github.com/electron/electron/issues/9179 for more info
   setTimeout(async () => {
-    const chain = new ChainService(app)
-    const Settings = new SettingsService() 
+    chain = new ChainService(app)
+    Settings = new SettingsService()
 
     app.on('will-quit', function () {
       chain.stopProcess();
@@ -117,7 +116,7 @@ app.on('ready', () => {
       })
 
       chain.on("server-started", (data) => {
-        mainWindow.webContents.send(SET_KEY_DATA, { 
+        mainWindow.webContents.send(SET_KEY_DATA, {
           privateKeys: data.privateKeys,
           mnemonic: data.mnemonic,
           hdPath: data.hdPath
@@ -151,7 +150,7 @@ app.on('ready', () => {
         chain.once("server-stopped", () => {
           chain.startServer(Settings.getAll())
         })
-        chain.stopServer()
+        chain.stopProcess();
       } else {
         chain.startServer(Settings.getAll())
       }
@@ -178,7 +177,7 @@ app.on('ready', () => {
       ]).popup(mainWindow)
     })
 
-    if (process.platform === 'darwin') {
+    if (process.platform === 'darwin' || true) {
       const navigate = (path) => mainWindow.webContents.send('navigate', path);
       template = [
         {
@@ -276,13 +275,19 @@ app.on('ready', () => {
         {
           label: 'View',
           submenu:
-          process.env.NODE_ENV === 'development'
+          process.env.NODE_ENV === 'development' || true
           ? [
             {
               label: 'Reload',
               accelerator: 'Command+R',
               click () {
-                mainWindow.webContents.reload()
+                chain.stopProcess();
+                console.log("killed");
+                setTimeout(function(){
+                  mainWindow.webContents.reload()
+                }, 5000);
+
+
               }
             },
             {
@@ -417,7 +422,7 @@ app.on('ready', () => {
         {
           label: '&View',
           submenu:
-          process.env.NODE_ENV === 'development'
+          process.env.NODE_ENV === 'development' || true
           ? [
             {
               label: '&Reload',
